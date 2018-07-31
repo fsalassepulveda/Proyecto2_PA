@@ -15,17 +15,18 @@ echo -e "BIENVENIDE $USER
 echo -e "INFORMACION DEL SISTEMA:
 ------------------------"
 echo "Nombre de la maquina (Host): `uname -n` " 
-echo -e "Sistema operativo: `uname -o`" 
-echo "MEMORIA:"
+echo "Sistema operativo: `uname -o`" 
+echo "MEMORIA"
 free --mega| grep "Memoria: " | awk '{print "	Espacio libre de la memoria: " $3 " MB"}'
 free --mega | grep "Swap:" | awk '{print "	Espacio libre de la memoria virtual: " $3 " MB"}' 
-free -t --mega| grep "Total:" | awk '{print "	Espacio usado  total ocupado de la memoria: " $3" MB\n"}'
-uptime |awk '{print "Tiempo en linea: "$3 }' |cut -d "," -f1
+free -t --mega| grep "Total:" | awk '{print "	Espacio usado  total ocupado de la memoria: " $3" MB"}'
 
+uptime -p|awk '{print "Tiempo en linea: " $2 " Hora(s) " $4 " minuto(s)" }' #ARREGLAR PARA CASO EN QUE LLEVE SOLO MINUTOS
 echo "Cantidad de archivos en /home : `ls -l $HOME |wc -c`" 
 ls -l $HOME |awk ' {suma += $5 } END {print "El tamaño total de los archivos en /home es: " suma/1024 " MB" }'
-top -bn1 |grep "%Cpu"| awk '{print "%CPU: \n    Ocupado por usuario: " $2 "%\n    Ocupado por sistema: " $10 "%\n    Ocupado en espera: " $4 "%" }'
 
 #awk 'BEGIN { print "Usuario activo:  "} $3 >= 1000 { print "	- "$1  | "sort -r"}' FS=":" /etc/passwd #CÓMO USAR 'FOR'CON AWK 
+#top -bn1 | awk '/Mem/ { mem = "Memoria en uso: " $5 / $3 * 100 "%" }; /Cpu/ { cpu = "CPU en uso: " 100 - $8 "%" }; END { print mem ", " cpu }'
+
 
 
